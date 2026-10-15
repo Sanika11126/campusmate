@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusMate – Student Productivity Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">C</span>CampusMate</div>
+    <nav class="nav" aria-label="Main">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#subjects">Subjects</a>
+      <a href="#tasks">Tasks</a>
+    </nav>
+    <button id="themeToggle" class="btn ghost" type="button" aria-pressed="false">Dark mode</button>
+  </aside>
+
+  <main class="content">
+    <header id="dashboard" class="page-head">
+      <div>
+        <h1 id="greeting">Welcome back</h1>
+        <p id="studyTip" class="muted"></p>
+      </div>
+      <button id="addTaskBtn" class="btn primary" type="button">+ Add task</button>
+    </header>
+
+    <section class="stats" aria-label="Task statistics">
+      <div class="card stat"><span class="stat-label">Total tasks</span><strong id="statTotal">0</strong></div>
+      <div class="card stat"><span class="stat-label">Pending</span><strong id="statPending">0</strong></div>
+      <div class="card stat"><span class="stat-label">Completed</span><strong id="statDone">0</strong></div>
+      <div class="card stat">
+        <span class="stat-label">Completion</span><strong id="statPercent">0%</strong>
+        <div class="bar" role="progressbar" aria-label="Completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar"><span id="progressFill"></span></div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>Overdue</h2>
+        <ul id="overdueList" class="mini-list"></ul>
+      </div>
+      <div class="card">
+        <h2>Upcoming deadlines</h2>
+        <ul id="upcomingList" class="mini-list"></ul>
+      </div>
+    </section>
+
+    <section id="subjects" class="card">
+      <h2>Subject summary</h2>
+      <div id="subjectSummary" class="subjects"></div>
+    </section>
+
+    <section id="tasks">
+      <h2>All tasks</h2>
+      <div class="controls">
+        <label class="field grow">Search<input id="searchInput" type="search" placeholder="Title or subject"></label>
+        <label class="field">Status
+          <select id="statusFilter"><option value="all">All</option><option value="pending">Pending</option><option value="completed">Completed</option></select>
+        </label>
+        <label class="field">Priority
+          <select id="priorityFilter"><option value="all">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select>
+        </label>
+        <label class="field">Sort by
+          <select id="sortSelect"><option value="due">Due date</option><option value="priority">Priority</option></select>
+        </label>
+      </div>
+      <div id="taskList" class="task-list"></div>
+      <div id="emptyState" class="card empty" hidden>
+        <h3 id="emptyTitle"></h3><p id="emptyText" class="muted"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add / edit task dialog -->
+  <dialog id="taskDialog" aria-labelledby="dialogTitle">
+    <form id="taskForm" novalidate>
+      <h2 id="dialogTitle">Add task</h2>
+      <label class="field">Title *<input id="titleInput" maxlength="80" autocomplete="off"><span class="error" id="titleError"></span></label>
+      <label class="field">Subject / course *<input id="subjectInput" maxlength="40" autocomplete="off"><span class="error" id="subjectError"></span></label>
+      <div class="row">
+        <label class="field">Due date *<input id="dueInput" type="date"><span class="error" id="dueError"></span></label>
+        <label class="field">Priority
+          <select id="priorityInput"><option>High</option><option selected>Medium</option><option>Low</option></select>
+        </label>
+      </div>
+      <label class="field">Notes (optional)<textarea id="notesInput" rows="3" maxlength="500"></textarea></label>
+      <div class="actions">
+        <button type="button" id="cancelBtn" class="btn ghost">Cancel</button>
+        <button type="submit" id="saveBtn" class="btn primary">Save task</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Delete confirmation dialog -->
+  <dialog id="confirmDialog" aria-labelledby="confirmTitle">
+    <h2 id="confirmTitle">Delete this task?</h2>
+    <p id="confirmText" class="muted"></p>
+    <div class="actions">
+      <button type="button" id="confirmCancel" class="btn ghost">Keep task</button>
+      <button type="button" id="confirmDelete" class="btn danger">Delete task</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
